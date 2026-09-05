@@ -40,8 +40,8 @@ jobs:
       - name: Build with VitePress
         run: npm run docs:build
         env:
-          # GitHub Pages 以 /仓库名/ 作为子路径部署，由 CI 自动注入
-          VITEPRESS_BASE: /${{ github.event.repository.name }}/
+          # 使用自定义域名 docs.mcnjg.cc，以根路径部署
+          VITEPRESS_BASE: /
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

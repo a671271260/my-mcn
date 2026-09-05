@@ -60,7 +60,7 @@ export default defineConfig({
       message: siteConfig.footer || '',
       copyright: `Copyright © ${new Date().getFullYear()}`
     },
-    socialLinks: [{ icon: 'github', link: 'https://github.com/' }],
+    socialLinks: [{ icon: 'github', link: 'https://github.com/a671271260/my-mcn' }],
     search: {
       provider: 'local'
     },

@@ -24,9 +24,9 @@ backend:
 media_folder: docs/public/media
 public_folder: /media
 
-# 指定站点根路径；配合 GitHub Pages 部署为 /仓库名/
-site_url: https://a671271260.github.io/my-mcn/
-display_url: https://a671271260.github.io/my-mcn/
+# 指定站点根路径；已绑定自定义域名 docs.mcnjg.cc
+site_url: https://docs.mcnjg.cc/
+display_url: https://docs.mcnjg.cc/
 
 # 界面语言
 locale: zh_Hans
