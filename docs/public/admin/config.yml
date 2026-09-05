@@ -1,0 +1,85 @@
+# ============================================================
+# Decap CMS 配置
+# 后台入口：<部署域名>/admin/
+# 配置参考：https://decapcms.org/docs/configuration-options/
+# ============================================================
+
+backend:
+  name: github
+  # ↓↓↓ 重要：改成你的 GitHub 用户名和仓库名（必填）↓↓↓
+  repo: your-github-username/your-repo-name
+  # 内容将提交到哪个分支（建议 main）
+  branch: main
+  # GitHub 内容写入范围：仅修改 docs 目录下的内容文件
+  open_authoring: false
+
+# 本地后端（调试 config 用，非必开）：
+# 安装 decap-server 后本地运行，可免 OAuth 预览后台
+# local_backend: true
+
+# 上传的图片等媒体文件存放位置
+media_folder: docs/public/media
+public_folder: /media
+
+# 指定站点根路径；配合 GitHub Pages 部署为 /仓库名/
+site_url: https://your-github-username.github.io/your-repo-name/
+display_url: https://your-github-username.github.io/your-repo-name/
+
+# 界面语言
+locale: zh_Hans
+
+slug:
+  encoding: ascii
+  clean_accents: true
+
+# 内容集合定义
+collections:
+  # ---------- 集合 1：文档指南页（docs/guide 下的 Markdown） ----------
+  - name: guide
+    label: 指南文档
+    label_singular: 指南页面
+    folder: docs/guide
+    create: true
+    delete: true
+    editor:
+      preview: false
+    # 页面保存后写入该路径；slug 使用标题的 ASCII 形式
+    slug: '{{slug}}'
+    extension: md
+    format: frontmatter
+    fields:
+      - { label: 页面标题, name: title, widget: string, hint: '会显示在页面顶部与浏览器标签页' }
+      - { label: 页面描述, name: description, widget: string, required: false, hint: '用于 SEO 与列表展示' }
+      - label: 文件名标识（新建时必填）
+        name: slug
+        widget: string
+        required: false
+        pattern: ['^[a-z0-9-]+$', '仅允许小写字母、数字和连字符']
+        hint: '留空则自动生成；建议填英文以得到友好 URL，例如 getting-started'
+      - { label: 正文内容, name: body, widget: markdown }
+
+  # ---------- 集合 2：站点全局配置（编辑 site-config.json） ----------
+  - name: siteConfig
+    label: 站点配置
+    editor:
+      preview: false
+    files:
+      - name: main
+        label: 全局站点配置
+        file: docs/.vitepress/site-config.json
+        fields:
+          - { label: 站点标题, name: title, widget: string, hint: '显示在浏览器标签页与导航栏' }
+          - { label: 站点描述, name: description, widget: string, hint: '用于 SEO' }
+          - label: 界面语言
+            name: lang
+            widget: select
+            options: ['zh-CN', 'en']
+            default: 'zh-CN'
+          - label: 顶部导航菜单
+            name: nav
+            widget: list
+            collapsed: false
+            fields:
+              - { label: 菜单文字, name: text, widget: string }
+              - { label: 链接地址, name: link, widget: string, hint: '如 / 或 /guide/getting-started' }
+          - { label: 页脚文字, name: footer, widget: string, required: false }

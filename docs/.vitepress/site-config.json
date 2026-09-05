@@ -1,0 +1,10 @@
+{
+  "title": "我的 VitePress 文档站",
+  "description": "基于 VitePress 与 Decap CMS 构建的文档站点",
+  "lang": "zh-CN",
+  "nav": [
+    { "text": "首页", "link": "/" },
+    { "text": "指南", "link": "/guide/" }
+  ],
+  "footer": "使用 VitePress + Decap CMS 构建"
+}
