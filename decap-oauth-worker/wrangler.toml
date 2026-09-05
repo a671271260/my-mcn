@@ -1,0 +1,15 @@
+name = "decap-oauth"
+main = "src/index.ts"
+compatibility_date = "2025-11-17"
+
+# 仅当你的文档仓库是私有时设为 "1"
+[vars]
+GITHUB_REPO_PRIVATE = "0"
+
+# ============================================================
+# 敏感信息（Client ID / Client Secret）请勿写在此文件！
+# 部署前用以下命令以加密 Secret 形式配置：
+#   npx wrangler secret put GITHUB_OAUTH_ID
+#   npx wrangler secret put GITHUB_OAUTH_SECRET
+# 或在 Cloudflare 控制台：Worker → Settings → Variables and Secrets 中添加
+# ============================================================

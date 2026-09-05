@@ -6,10 +6,13 @@
 
 backend:
   name: github
-  # ↓↓↓ 重要：改成你的 GitHub 用户名和仓库名（必填）↓↓↓
-  repo: your-github-username/your-repo-name
+  # 你的文档仓库（用户名/仓库名）
+  repo: a671271260/my-mcn
   # 内容将提交到哪个分支（建议 main）
   branch: main
+  # 部署 OAuth Worker 后替换为你的 Worker 域名（必填）
+  base_url: https://decap-oauth.671271260.workers.dev
+  auth_endpoint: auth
   # GitHub 内容写入范围：仅修改 docs 目录下的内容文件
   open_authoring: false
 
@@ -22,8 +25,8 @@ media_folder: docs/public/media
 public_folder: /media
 
 # 指定站点根路径；配合 GitHub Pages 部署为 /仓库名/
-site_url: https://your-github-username.github.io/your-repo-name/
-display_url: https://your-github-username.github.io/your-repo-name/
+site_url: https://a671271260.github.io/my-mcn/
+display_url: https://a671271260.github.io/my-mcn/
 
 # 界面语言
 locale: zh_Hans

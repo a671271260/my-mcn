@@ -1,0 +1,14 @@
+{
+  "name": "decap-oauth-worker",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Decap CMS GitHub OAuth 代理（Cloudflare Worker）",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^3.90.0"
+  }
+}
