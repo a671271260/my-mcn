@@ -27,6 +27,10 @@ vitepress-cms-site/
 │     ├─ index.md
 │     └─ getting-started.md
 ├─ .github/workflows/deploy.yml  # GitHub Pages 自动部署
+├─ decap-oauth-worker/           # GitHub OAuth 代理（Cloudflare Worker）
+│  ├─ src/index.ts              # Worker 源码（wrangler 部署用）
+│  ├─ wrangler.toml
+│  └─ worker-dashboard.js       # 控制台手动粘贴版（备用）
 ├─ package.json
 └─ .gitignore
 ```
@@ -39,51 +43,38 @@ npm run docs:dev   # 启动开发服务器 http://localhost:5173
 npm run docs:build # 生产构建（输出到 docs/.vitepress/dist）
 ```
 
-## 二、推送 GitHub 并启用后台
+## 二、线上部署与后台（已配置完成）
 
-Decap CMS 需要 OAuth 认证才能把编辑内容写回 GitHub 仓库，有两条路线：
+本项目已配置好以下线上资源：
 
-### 路线 A：GitHub OAuth App（推荐，站点部署在 GitHub Pages）
+| 资源 | 地址 |
+| --- | --- |
+| 文档站点 | https://a671271260.github.io/my-mcn/ |
+| CMS 后台 | https://a671271260.github.io/my-mcn/admin/ |
+| OAuth Worker | https://decap-oauth.671271260.workers.dev |
+| GitHub 仓库 | https://github.com/a671271260/my-mcn |
 
-1. 在 GitHub 新建仓库（例如 `my-docs`），把本目录推送上去：
+### 自动部署链路
+
+推送 `main` 分支 → GitHub Actions 构建 → 部署到 GitHub Pages，全程无需手动操作。
+
+### OAuth 认证链路
+
+后台 → `decap-oauth` Worker `/auth` → GitHub OAuth App → `/callback` 回传令牌 → CMS 读写仓库。
+
+- GitHub OAuth App：在 GitHub Developer settings 中管理（Client ID 已配置到 Worker 密钥）
+- Worker 密钥：`GITHUB_OAUTH_ID`、`GITHUB_OAUTH_SECRET` 以加密 Secret 形式存于 Cloudflare
+- 仓库为公开仓库，OAuth scope 使用 `public_repo,user`
+
+### 更新 OAuth Worker（如需改代码）
 
 ```bash
-git init
-git add .
-git commit -m "init: VitePress + Decap CMS"
-git branch -M main
-git remote add origin https://github.com/<你的用户名>/my-docs.git
-git push -u origin main
+cd decap-oauth-worker
+npm install
+npx wrangler login   # 浏览器授权一次
+npx wrangler deploy  # 部署新代码
 ```
 
-2. 部署站点：仓库 `Settings → Pages → Source` 选择 **GitHub Actions**，推送后 Actions 会自动构建发布。
-
-3. 创建 OAuth App：GitHub `Settings → Developer settings → OAuth Apps → New OAuth App`：
-
-| 字段 | 值 |
-| --- | --- |
-| Application name | 任意，如 `my-docs CMS` |
-| Homepage URL | 部署后的站点地址，如 `https://<用户名>.github.io/my-docs/` |
-| Authorization callback URL | `https://<用户名>.github.io/my-docs/admin/index.html` |
-
-4. 将 `Client ID` 填入后台 `docs/public/admin/index.html`（`window.CMS_MANUAL_INIT` 配置或通过认证代理），并将 `Client Secret` 配置到你选用的 OAuth 代理服务（GitHub 不支持纯前端保存 Secret，需借助 Netlify Functions、Vercel Serverless 或第三方 OAuth 服务如 [oauth.paperplane.cc](https://oauth.paperplane.cc)）。
-
-5. 修改 `docs/public/admin/config.yml` 中 `repo` 字段为你的仓库名，然后提交推送。
-
-### 路线 B：Netlify 部署（内置身份认证，无需自建 OAuth）
-
-1. 在 [Netlify](https://www.netlify.com) 上 Import 该仓库，构建命令 `npm run docs:build`，输出目录 `docs/.vitepress/dist`。
-2. 将 `docs/public/admin/config.yml` 的 `backend` 改为：
-
-```yaml
-backend:
-  name: git-gateway
-  branch: main
-```
-
-3. 站点 `Site settings → Identity` 启用身份认证，并到 `Identity → Services → Git Gateway` 勾选启用。
-4. 后台 `docs/public/admin/index.html` 中取消注释 Netlify Identity 脚本。
-5. 在 Netlify 的站点地址后加 `/admin/` 即可登录使用。
 
 ## 三、后台使用
 
