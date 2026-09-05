@@ -49,10 +49,11 @@ npm run docs:build # 生产构建（输出到 docs/.vitepress/dist）
 
 | 资源 | 地址 |
 | --- | --- |
-| 文档站点 | https://a671271260.github.io/my-mcn/ |
-| CMS 后台 | https://a671271260.github.io/my-mcn/admin/ |
+| 文档站点 | https://docs.mcnjg.cc/ |
+| CMS 后台 | https://docs.mcnjg.cc/admin/ |
 | OAuth Worker | https://decap-oauth.671271260.workers.dev |
 | GitHub 仓库 | https://github.com/a671271260/my-mcn |
+| 旧地址（备用） | https://a671271260.github.io/my-mcn/ |
 
 ### 自动部署链路
 
